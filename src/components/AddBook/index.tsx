@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo';
 import { getAuthorsQuery, addBookMutation } from '../../queries';
-import { Form, Input, Button, DatePicker, Select } from 'antd'
+import { Form, Input, Button, DatePicker, Select, Typography } from 'antd'
 
 
 
@@ -51,7 +51,9 @@ class AddBook extends Component<Props, State> {
       return <div>Loading...</div>
     }
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <>
+        <Typography.Title>Add a Book!</Typography.Title>
+        <Form onSubmit={this.handleSubmit}>
         <Form.Item>
           {getFieldDecorator('title')(
             <Input placeholder="Book Title"></Input>
@@ -60,7 +62,7 @@ class AddBook extends Component<Props, State> {
         </Form.Item>
         <Form.Item>
           {getFieldDecorator('edition')(
-            <DatePicker showTime placeholder="Select edition date" format="YYYY-MM-DD HH:mm:ss" />
+            <DatePicker placeholder="Select edition date" format="YYYY-MM-DD HH:mm:ss" />
 
           )}
         </Form.Item>
@@ -71,6 +73,7 @@ class AddBook extends Component<Props, State> {
         </Form.Item>
         <Button htmlType="submit" type="primary" ghost>Add Book!</Button>
       </Form>
+      </>
     )
   }
 }

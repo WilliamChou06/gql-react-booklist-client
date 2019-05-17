@@ -1,6 +1,8 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
+import { format } from 'date-fns';
 import { getBooksQuery } from '../../queries';
+import { StyledBooklist } from './style';
 
 import { Table } from 'antd';
 
@@ -19,7 +21,8 @@ const BookList = (props) => {
     {
       title: 'Edition',
       dataIndex: 'edition',
-      key: 'edition'
+      key: 'edition',
+      render: date => date && format(date, 'DD/MM/YYYY')
     },
     {
       title: 'Authors',
@@ -29,9 +32,9 @@ const BookList = (props) => {
     },
   ]
   return (
-    <div>
+    <StyledBooklist>
       <Table rowKey={'asd'} dataSource={props.data.books} columns={columns} />
-    </div>
+    </StyledBooklist>
   );
 };
 

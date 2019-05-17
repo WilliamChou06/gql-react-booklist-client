@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
-import { graphql, compose } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import { addAuthorMutation } from '../../queries';
-import { Form, Input, Button, DatePicker, Select } from 'antd'
-
-
+import { Form, Input, Button, Typography } from 'antd'
 
 
 interface Props {
@@ -42,15 +40,17 @@ class AddAuthor extends Component<Props, State> {
 
     console.log(this.props)
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <>
+        <Typography.Title>Add an author!</Typography.Title>
+        <Form onSubmit={this.handleSubmit}>
         <Form.Item>
           {getFieldDecorator('name')(
             <Input placeholder="Add Author"></Input>
-
           )}
         </Form.Item>
         <Button htmlType="submit" type="primary" ghost>Add an Author!</Button>
       </Form>
+      </>
     )
   }
 }

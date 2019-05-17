@@ -1,20 +1,21 @@
-import React, {lazy, Suspense} from 'react';
+import React, { lazy, Suspense } from 'react';
+import { UserInputWrapper } from './style';
+
 const AddAuthor = lazy(() => import('../AddAuthor'))
 const AddBook = lazy(() => import('../AddBook'))
 
 
-
 const UserInput = () => {
   return (
-    <>
-    <Suspense fallback={<div>Loading...</div>}>
-      <AddAuthor />
-    </Suspense>
-    <Suspense fallback={<div>Loading...</div>}>
-      <AddBook />
-    </Suspense>
-    </>
-  );
-};
-
+    <UserInputWrapper >
+      <Suspense fallback={<div>Loading...</div>}>
+        <AddAuthor />
+      </Suspense>
+      <Suspense fallback={<div>Loading...</div>}>
+        <AddBook />
+      </Suspense>
+      </UserInputWrapper>
+      );
+    };
+    
 export default UserInput;
