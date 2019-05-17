@@ -41,7 +41,7 @@ const BookList = (props) => {
   ]
   return (
     <div>
-      <Table dataSource={props.data.books} columns={columns} />
+      <Table rowKey={'asd'} dataSource={props.data.books} columns={columns} />
     </div>
   );
 };

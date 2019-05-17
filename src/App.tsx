@@ -4,6 +4,7 @@ import { ApolloProvider } from 'react-apollo';
 
 // import Booklist from './components/Booklist';
 const Booklist = lazy(() => import('./components/Booklist'))
+const AddBook = lazy(() => import('./components/AddBook'))
 
 
 
@@ -17,8 +18,11 @@ const App: React.FC = () => {
       <div className="App">
         <Suspense fallback={<div>Loading...</div>}>
           <Booklist />
-
         </Suspense>
+        <Suspense fallback={<div>Loading...</div>}>
+          <AddBook />
+        </Suspense>
+        
       </div>
     </ApolloProvider>
   );
