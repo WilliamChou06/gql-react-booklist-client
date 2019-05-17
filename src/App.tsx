@@ -2,9 +2,8 @@ import React, { lazy, Suspense } from 'react';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 
-// import Booklist from './components/Booklist';
 const Booklist = lazy(() => import('./components/Booklist'))
-const AddBook = lazy(() => import('./components/AddBook'))
+const UserInput = lazy(() => import('./components/UserInput'))
 
 
 
@@ -20,9 +19,8 @@ const App: React.FC = () => {
           <Booklist />
         </Suspense>
         <Suspense fallback={<div>Loading...</div>}>
-          <AddBook />
+          <UserInput />
         </Suspense>
-        
       </div>
     </ApolloProvider>
   );
