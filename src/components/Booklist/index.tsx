@@ -1,21 +1,10 @@
 import React from 'react';
-import { gql } from 'apollo-boost';
 import { graphql } from 'react-apollo';
+import { getBooksQuery } from '../../queries';
 
 import { Table } from 'antd';
 
-const getBooksQuery = gql`
-  {
-    books {
-      title
-      id
-      edition
-      authors {
-        id
-      }
-    }
-  }
-`
+
 
 const BookList = (props) => {
   if(props.data.loading) {

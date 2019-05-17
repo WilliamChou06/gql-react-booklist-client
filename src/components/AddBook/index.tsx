@@ -1,41 +1,64 @@
 import React, { Component } from 'react'
-import { gql } from 'apollo-boost';
 import { graphql } from 'react-apollo';
+import { getAuthorsQuery } from '../../queries';
 import { Form, Input, Button, DatePicker, Select } from 'antd'
 
-const getAuthorsQuery = gql`
-  {
-    authors {
-      id
-      name
-    }
-  }
-`
+
+
 
 interface Props {
   data: any,
+  form: any
 }
 
-class AddBook extends Component<Props> {
+interface State {
+  title: string,
+  edition: string,
+  author: string
+}
 
+class AddBook extends Component<Props, State> {
+  state = {
+    title: '',
+    edition: '',
+    author: ''
+  }
+
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+      }
+    });
+  };
 
   render() {
+
+    const { getFieldDecorator } = this.props.form
+
     console.log(this.props)
     if (this.props.data.loading) {
       return <div>Loading...</div>
     }
     return (
-      <Form>
+      <Form onSubmit={this.handleSubmit}>
         <Form.Item>
-          <Input placeholder="Book Title"></Input>
+          {getFieldDecorator('title')(
+            <Input placeholder="Book Title"></Input>
+
+          )}
         </Form.Item>
         <Form.Item>
-          <DatePicker showTime placeholder="Select edition date" format="YYYY-MM-DD HH:mm:ss" />
+          {getFieldDecorator('edition')(
+            <DatePicker showTime placeholder="Select edition date" format="YYYY-MM-DD HH:mm:ss" />
+
+          )}
         </Form.Item>
         <Form.Item>
-          <Select mode="multiple" placeholder="Select authors">
-            {this.props.data.authors.map((author) => <Select.Option key={author.id}>{author.name}</Select.Option>)}
-          </Select>
+          {getFieldDecorator('authors')(<Select mode="multiple" placeholder="Select authors">
+            {this.props.data.authors.map((author) => <Select.Option key={author.id} value={author.id}>{author.name}</Select.Option>)}
+          </Select>)}
         </Form.Item>
         <Button htmlType="submit" type="primary" ghost>Add Book!</Button>
       </Form>
@@ -43,5 +66,7 @@ class AddBook extends Component<Props> {
   }
 }
 
+const WrappedAddBook = Form.create({ name: 'add_book' })(AddBook);
+
 // @ts-ignore
-export default graphql(getAuthorsQuery)(AddBook);
+export default graphql(getAuthorsQuery)(WrappedAddBook);
