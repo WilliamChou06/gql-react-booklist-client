@@ -52,7 +52,7 @@ class AddBook extends Component<Props, State> {
     }
     return (
       <>
-        <Typography.Title>Add a Book!</Typography.Title>
+        <Typography.Title level={2}>Add a Book!</Typography.Title>
         <Form onSubmit={this.handleSubmit}>
         <Form.Item>
           {getFieldDecorator('title')(

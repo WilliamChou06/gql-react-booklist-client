@@ -41,7 +41,7 @@ class AddAuthor extends Component<Props, State> {
     console.log(this.props)
     return (
       <>
-        <Typography.Title>Add an author!</Typography.Title>
+        <Typography.Title level={2}>Add an author!</Typography.Title>
         <Form onSubmit={this.handleSubmit}>
         <Form.Item>
           {getFieldDecorator('name')(

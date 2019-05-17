@@ -11,6 +11,8 @@ const UserInput = () => {
       <Suspense fallback={<div>Loading...</div>}>
         <AddAuthor />
       </Suspense>
+      <br></br>
+      <hr></hr>
       <Suspense fallback={<div>Loading...</div>}>
         <AddBook />
       </Suspense>
