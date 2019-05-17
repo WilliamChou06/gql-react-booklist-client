@@ -1,14 +1,26 @@
 import React from 'react';
-import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from 'react-apollo';
+import { gql } from 'apollo-boost';
+import { graphql } from 'react-apollo';
 
 import { Table } from 'antd';
 
-const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphql'
-})
+const getBooksQuery = gql`
+  {
+    books {
+      title
+      id
+      edition
+      authors {
+        id
+      }
+    }
+  }
+`
 
-const BookList = () => {
+const BookList = (props) => {
+  if(props.data.loading) {
+    return(<div>Loading books...</div>)
+  }
   const columns = [
     {
       title: 'Title',
@@ -23,16 +35,15 @@ const BookList = () => {
     {
       title: 'Authors',
       dataIndex: 'authors',
-      key: 'authors'
+      key: 'authors',
+      render: authors => authors.length
     },
   ]
   return (
-    <ApolloProvider client={client}>
-      <div>
-        <Table columns={columns} />
-      </div>
-    </ApolloProvider>
+    <div>
+      <Table dataSource={props.data.books} columns={columns} />
+    </div>
   );
 };
 
-export default BookList;
+export default graphql(getBooksQuery)(BookList);
