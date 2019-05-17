@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { graphql } from 'react-apollo';
-import { format } from 'date-fns';
+import { format, compareDesc } from 'date-fns';
 import { getBooksQuery } from '../../queries';
 import { StyledBooklist } from './style';
 
@@ -88,19 +88,30 @@ class BookList extends Component<Props> {
         title: 'Title',
         dataIndex: 'title',
         key: 'title',
+        sorter: (a, b) => a.title.localeCompare(b.title),
         ...this.getColumnSearchProps('title')
       },
       {
         title: 'Edition',
         dataIndex: 'edition',
         key: 'edition',
-        render: date => date && format(date, 'DD/MM/YYYY')
+        render: date => date && format(date, 'DD/MM/YYYY'),
+        sorter: (a, b) => {
+          console.log(a, b)
+          return compareDesc(a.edition, b.edition)
+        }
+      
+        
       },
       {
         title: 'Authors',
         dataIndex: 'authors',
         key: 'authors',
-        render: authors => authors.length
+        render: authors => authors.length,
+        sorter: (a, b) => {
+          console.log(a, b)
+          return a.authors.length - b.authors.length},
+
       },
     ]
     return (
