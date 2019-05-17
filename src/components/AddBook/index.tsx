@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { graphql } from 'react-apollo';
-import { getAuthorsQuery } from '../../queries';
+import { graphql, compose } from 'react-apollo';
+import { getAuthorsQuery, addBookMutation } from '../../queries';
 import { Form, Input, Button, DatePicker, Select } from 'antd'
 
 
@@ -8,7 +8,9 @@ import { Form, Input, Button, DatePicker, Select } from 'antd'
 
 interface Props {
   data: any,
-  form: any
+  form: any,
+  getAuthorsQuery: any,
+  addBookMutation: any
 }
 
 interface State {
@@ -26,9 +28,16 @@ class AddBook extends Component<Props, State> {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields((err, {title, edition, authors}) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        console.log('Received values of form: ', );
+        this.props.addBookMutation({
+          variables: {
+            title,
+            edition,
+            authorsId: authors
+          }
+        });
       }
     });
   };
@@ -38,7 +47,7 @@ class AddBook extends Component<Props, State> {
     const { getFieldDecorator } = this.props.form
 
     console.log(this.props)
-    if (this.props.data.loading) {
+    if (this.props.getAuthorsQuery.loading) {
       return <div>Loading...</div>
     }
     return (
@@ -57,7 +66,7 @@ class AddBook extends Component<Props, State> {
         </Form.Item>
         <Form.Item>
           {getFieldDecorator('authors')(<Select mode="multiple" placeholder="Select authors">
-            {this.props.data.authors.map((author) => <Select.Option key={author.id} value={author.id}>{author.name}</Select.Option>)}
+            {this.props.getAuthorsQuery.authors.map((author) => <Select.Option key={author.id} value={author.id}>{author.name}</Select.Option>)}
           </Select>)}
         </Form.Item>
         <Button htmlType="submit" type="primary" ghost>Add Book!</Button>
@@ -69,4 +78,7 @@ class AddBook extends Component<Props, State> {
 const WrappedAddBook = Form.create({ name: 'add_book' })(AddBook);
 
 // @ts-ignore
-export default graphql(getAuthorsQuery)(WrappedAddBook);
+export default compose(
+  graphql(getAuthorsQuery, {name: 'getAuthorsQuery'}),
+  graphql(addBookMutation, {name: 'addBookMutation'})
+)(WrappedAddBook);
