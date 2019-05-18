@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo';
-import { getAuthorsQuery, addBookMutation } from '../../queries';
+import { getAuthorsQuery, addBookMutation, getBooksQuery } from '../../queries';
 import { Form, Input, Button, DatePicker, Select, Typography } from 'antd'
 
 
@@ -31,13 +31,18 @@ class AddBook extends Component<Props, State> {
     this.props.form.validateFields((err, {title, edition, authors}) => {
       if (!err) {
         console.log('Received values of form: ', );
-        this.props.addBookMutation({
+         this.props.addBookMutation({
           variables: {
             title,
             edition,
             authorsId: authors
-          }
+          },
+          refetchQueries: [{
+            query: getBooksQuery
+          }]
         });
+        this.props.form.resetFields();
+
       }
     });
   };

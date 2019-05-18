@@ -3,6 +3,7 @@ import { graphql } from 'react-apollo';
 import { format, compareDesc } from 'date-fns';
 import { getBooksQuery } from '../../queries';
 import { StyledBooklist } from './style';
+import {Link} from 'react-router-dom';
 
 import { Table, Input, Icon, Button } from 'antd';
 import Highlighter from 'react-highlight-words';
@@ -96,23 +97,23 @@ class BookList extends Component<Props> {
         dataIndex: 'edition',
         key: 'edition',
         render: date => date && format(date, 'DD/MM/YYYY'),
-        sorter: (a, b) => {
-          console.log(a, b)
-          return compareDesc(a.edition, b.edition)
-        }
-      
-        
+        sorter: (a, b) =>  compareDesc(a.edition, b.edition)
       },
       {
         title: 'Authors',
         dataIndex: 'authors',
         key: 'authors',
         render: authors => authors.length,
-        sorter: (a, b) => {
-          console.log(a, b)
-          return a.authors.length - b.authors.length},
+        sorter: (a, b) => a.authors.length - b.authors.length,
 
       },
+      {
+        title: 'Actions',
+        render: book => {
+          console.log(book)
+          return  <span><Link to={`/edit/${book.id}`}>Edit</Link></span>
+        }
+      }
     ]
     return (
       <StyledBooklist>

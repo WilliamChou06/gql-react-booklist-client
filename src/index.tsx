@@ -1,26 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createGlobalStyle } from 'styled-components';
+import { Route, Switch, BrowserRouter } from 'react-router-dom'
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from 'react-apollo';
+
+
 import 'antd/dist/antd.css'
 import App from './App';
+import EditBook from './components/EditBook';
 import * as serviceWorker from './serviceWorker';
 
-// Add Global Styles here!
+const client = new ApolloClient({
+  uri: 'http://localhost:4000/graphql'
+})
 
-// const GlobalStyle = createGlobalStyle`
-//   body{
-//     display: flex;
-//     height: 100vh;
-//     width: 100vw;
-//     flex-wrap: wrap;
-//   }
-// `
 
 ReactDOM.render(
-    <>
-    {/* <GlobalStyle/> */}
-    <App />
-    </>
+  <ApolloProvider client={client}>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={App} />
+        <Route path="/edit/:bookId" component={EditBook} />
+      </Switch>
+    </BrowserRouter>
+  </ApolloProvider>
   , document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
