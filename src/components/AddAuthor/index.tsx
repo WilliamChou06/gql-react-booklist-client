@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { graphql } from 'react-apollo';
-import { addAuthorMutation } from '../../queries';
+import { addAuthorMutation, getAuthorsQuery } from '../../queries';
 import { Form, Input, Button, Typography } from 'antd'
 
 
@@ -28,9 +28,15 @@ class AddAuthor extends Component<Props, State> {
         this.props.mutate({
           variables: {
             name
-          }
+          },
+          refetchQueries: [
+            {
+              query: getAuthorsQuery
+            }
+          ]
         });
       }
+      this.props.form.resetFields();
     });
   };
 
