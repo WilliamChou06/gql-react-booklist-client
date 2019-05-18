@@ -29,6 +29,7 @@ export const getBooksQuery = gql`
       edition
       authors {
         id
+        name
       }
     }
   }

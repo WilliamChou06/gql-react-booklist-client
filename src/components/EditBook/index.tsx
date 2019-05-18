@@ -40,7 +40,7 @@ class EditBook extends Component<Props> {
           },
           refetchQueries: [{
             query: getBooksQuery
-          }]
+          }, ]
         });
         this.props.history.push('/');
       }
@@ -56,8 +56,8 @@ class EditBook extends Component<Props> {
     }
 
     // Store book object in variable
-    const book = this.props.getBookQuery.book;
-    const authorIds = book.authors.map(author => author.id)
+    let book = this.props.getBookQuery.book;
+    let authorIds = book.authors.map(author => author.id)
 
     return (
       <StyledEditBookWrapper>
@@ -110,7 +110,6 @@ export default compose(
   graphql(getBookQuery, {
     name: 'getBookQuery',
     options: (props: Props) => {
-      console.log(props.match.params.bookId)
       return {
         variables: {
           id: props.match.params.bookId

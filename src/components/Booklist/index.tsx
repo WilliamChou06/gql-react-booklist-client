@@ -113,10 +113,20 @@ class BookList extends Component<Props> {
         sorter: this.sortEditions
       },
       {
+        title: '#Authors',
+        dataIndex: 'authors',
+        key: '#authors',
+        render: authors => authors.length,
+        sorter: (a, b) => a.authors.length - b.authors.length,
+
+      },
+      {
         title: 'Authors',
         dataIndex: 'authors',
         key: 'authors',
-        render: authors => authors.length,
+        render: authors => {
+          console.log(authors)
+          return authors.map(author => author.name).join(', ')},
         sorter: (a, b) => a.authors.length - b.authors.length,
 
       },
