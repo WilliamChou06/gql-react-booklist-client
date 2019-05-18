@@ -3,6 +3,7 @@ import { graphql, compose } from 'react-apollo';
 import { getAuthorsQuery, addBookMutation, getBookQuery, editBookMutation, getBooksQuery } from '../../queries';
 import { Form, Input, DatePicker, Select, Typography } from 'antd';
 import { StyledButton, StyledEditBookWrapper } from './style';
+import moment from 'moment';
 
 interface Props {
   data: any;
@@ -74,10 +75,8 @@ class EditBook extends Component<Props> {
             {console.log(book.authors)}
             <Form.Item>
               {getFieldDecorator('edition', {
-                // antd uses moment objects so it's not possible to set a default value
-                // with date-fns
-                // Either replace antd or dane-fns with moment.js
-                initialValue: book.edition
+                // Initial value takes a moment object
+                initialValue: moment(book.edition)
               })(
                 <DatePicker placeholder="Select edition date" format="YYYY-MM-DD HH:mm:ss" />
 

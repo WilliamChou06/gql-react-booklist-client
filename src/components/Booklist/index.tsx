@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
-import { format, compareDesc } from 'date-fns';
+import moment from 'moment';
 import { getBooksQuery } from '../../queries';
 import { StyledBooklist } from './style';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { Table, Input, Icon, Button } from 'antd';
 import Highlighter from 'react-highlight-words';
@@ -15,6 +15,18 @@ interface Props {
 class BookList extends Component<Props> {
   state = {
     searchText: ''
+  }
+
+  // Edition sorting method
+
+  sortEditions = (a, b) => {
+    if (a.edition > b.edition) {
+      return 1
+    }
+    if (a.edition === b.edition) {
+      return 0
+    }
+    return -1
   }
 
   // antd search filter
@@ -49,12 +61,13 @@ class BookList extends Component<Props> {
     filterIcon: filtered => (
       <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />
     ),
-    onFilter: (value, record) =>
-      {console.log(record)
-        return record[dataIndex]
+    onFilter: (value, record) => {
+      console.log(record)
+      return record[dataIndex]
         .toString()
         .toLowerCase()
-        .includes(value.toLowerCase())},
+        .includes(value.toLowerCase())
+    },
     onFilterDropdownVisibleChange: visible => {
       if (visible) {
         // @ts-ignore
@@ -80,9 +93,9 @@ class BookList extends Component<Props> {
     clearFilters();
     this.setState({ searchText: '' });
   };
-  
+
   render() {
-    
+
     // Table columns and sorting functions
     const columns = [
       {
@@ -96,8 +109,8 @@ class BookList extends Component<Props> {
         title: 'Edition',
         dataIndex: 'edition',
         key: 'edition',
-        render: date => date && format(date, 'DD/MM/YYYY'),
-        sorter: (a, b) =>  compareDesc(a.edition, b.edition)
+        render: date => date && moment(date).format('DD/MM/YYYY'),
+        sorter: this.sortEditions
       },
       {
         title: 'Authors',
@@ -113,7 +126,7 @@ class BookList extends Component<Props> {
           // Rendering actions for each table item
           // Icon style is in-line because it's too much of a hassle to 
           // put in style.ts at the moment
-          return  <span><Link to={`/edit/${book.id}`}><Icon style={{fontSize: '18px'}} type="edit" /></Link></span>
+          return <span><Link to={`/edit/${book.id}`}><Icon style={{ fontSize: '18px' }} type="edit" /></Link></span>
         }
       }
     ]
