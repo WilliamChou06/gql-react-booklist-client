@@ -100,7 +100,7 @@ class EditBook extends Component<Props> {
 }
 
 // antd form HOF
-const WrappedEditBook = Form.create({ name: 'add_book' })(EditBook);
+const WrappedEditBook = Form.create({ name: 'edit_book' })(EditBook);
 
 // Compose all GraphQL queries
 // @ts-ignore
