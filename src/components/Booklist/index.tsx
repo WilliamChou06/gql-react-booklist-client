@@ -82,10 +82,7 @@ class BookList extends Component<Props> {
   };
   
   render() {
-    if (this.props.data.loading) {
-      return (<div>Loading books...</div>)
-    }
-
+    
     // Table columns and sorting functions
     const columns = [
       {
@@ -113,8 +110,10 @@ class BookList extends Component<Props> {
       {
         title: 'Actions',
         render: book => {
-          console.log(book)
-          return  <span><Link to={`/edit/${book.id}`}>Edit</Link></span>
+          // Rendering actions for each table item
+          // Icon style is in-line because it's too much of a hassle to 
+          // put in style.ts at the moment
+          return  <span><Link to={`/edit/${book.id}`}><Icon style={{fontSize: '18px'}} type="edit" /></Link></span>
         }
       }
     ]

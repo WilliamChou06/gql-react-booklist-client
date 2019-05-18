@@ -3,9 +3,6 @@ import { graphql, compose } from 'react-apollo';
 import { getAuthorsQuery, addBookMutation, getBooksQuery } from '../../queries';
 import { Form, Input, Button, DatePicker, Select, Typography } from 'antd'
 
-
-
-
 interface Props {
   data: any,
   form: any,
@@ -55,14 +52,15 @@ class AddBook extends Component<Props, State> {
     if (this.props.getAuthorsQuery.loading) {
       return <div>Loading...</div>
     }
+
     return (
       <>
         <Typography.Title level={2}>Add a Book!</Typography.Title>
+        <p>All fields are required! *</p>
         <Form onSubmit={this.handleSubmit}>
         <Form.Item>
           {getFieldDecorator('title')(
             <Input placeholder="Book Title"></Input>
-
           )}
         </Form.Item>
         <Form.Item>

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 import { getAuthorsQuery, addBookMutation, getBookQuery, editBookMutation, getBooksQuery } from '../../queries';
-import { Form, Input, Button, DatePicker, Select, Typography } from 'antd';
+import { Form, Input, DatePicker, Select, Typography } from 'antd';
+import { StyledButton, StyledEditBookWrapper } from './style';
 
 interface Props {
   data: any;
@@ -16,7 +17,6 @@ interface Props {
 
 
 class EditBook extends Component<Props> {
-  
 
   // Push to root directory if cancel btn clicked
   handleCancel = (e: React.FormEvent<HTMLButtonElement>)=> {
@@ -24,6 +24,7 @@ class EditBook extends Component<Props> {
     this.props.history.push('/');
   }
 
+  // Call mutation to GraphQL server and refresh book queries
   handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     this.props.form.validateFields((err, { title, edition, authors }) => {
@@ -46,8 +47,8 @@ class EditBook extends Component<Props> {
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form
 
+    const { getFieldDecorator } = this.props.form
 
     if (this.props.getAuthorsQuery.loading || !this.props.getBookQuery.book) {
       return <div>Loading...</div>
@@ -58,7 +59,8 @@ class EditBook extends Component<Props> {
     const authorIds = book.authors.map(author => author.id)
 
     return (
-      <>
+      <StyledEditBookWrapper>
+        <div>
         <Typography.Title level={2}>Editing: {book.title}</Typography.Title>
         <Form onSubmit={this.handleSubmit}>
           <Form.Item>
@@ -84,18 +86,20 @@ class EditBook extends Component<Props> {
           <Form.Item>
             {getFieldDecorator('authors', {
               initialValue: authorIds
-            })(<Select mode="multiple" placeholder="Select authors" defaultValue={{ key: '5cdec65492da4e0e08732512' }}>
+            })(<Select mode="multiple" placeholder="Select authors">
               {this.props.getAuthorsQuery.authors.map((author) => <Select.Option key={author.id} value={author.id}>{author.name}</Select.Option>)}
             </Select>)}
           </Form.Item>
-          <Button htmlType="submit" type="primary" ghost>Edit Book!</Button>
-          <Button onClick={this.handleCancel} type="danger" ghost>Cancel</Button>
+          <StyledButton htmlType="submit" type="primary" ghost>Edit Book!</StyledButton>
+          <StyledButton onClick={this.handleCancel} type="danger" ghost>Cancel</StyledButton>
         </Form>
-      </>
+        </div>
+      </StyledEditBookWrapper>
     )
   }
 }
 
+// antd form HOF
 const WrappedEditBook = Form.create({ name: 'add_book' })(EditBook);
 
 // Compose all GraphQL queries
