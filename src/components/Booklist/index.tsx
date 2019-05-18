@@ -17,6 +17,7 @@ class BookList extends Component<Props> {
     searchText: ''
   }
 
+  // antd search filter
   getColumnSearchProps = dataIndex => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 8 }}>
@@ -84,6 +85,8 @@ class BookList extends Component<Props> {
     if (this.props.data.loading) {
       return (<div>Loading books...</div>)
     }
+
+    // Table columns and sorting functions
     const columns = [
       {
         title: 'Title',
@@ -117,7 +120,7 @@ class BookList extends Component<Props> {
     ]
     return (
       <StyledBooklist>
-        <Table rowKey={'asd'} dataSource={this.props.data.books} columns={columns} />
+        <Table dataSource={this.props.data.books} columns={columns} />
       </StyledBooklist>
     );
   }

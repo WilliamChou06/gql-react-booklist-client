@@ -14,29 +14,21 @@ interface Props {
   history: any
 }
 
-interface State {
-  title: string,
-  edition: string,
-  author: string
-}
 
-class EditBook extends Component<Props, State> {
-  state = {
-    title: '',
-    edition: '',
-    author: ''
-  }
+class EditBook extends Component<Props> {
+  
 
-  handleCancel = e => {
+  // Push to root directory if cancel btn clicked
+  handleCancel = (e: React.FormEvent<HTMLButtonElement>)=> {
     e.preventDefault();
     this.props.history.push('/');
   }
 
-  handleSubmit = e => {
+  handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     this.props.form.validateFields((err, { title, edition, authors }) => {
       if (!err) {
-        console.log('Received values of form: ');
+        // Call edit mutation, repopulate table and push to root path
         this.props.editBookMutation({
           variables: {
             id: this.props.match.params.bookId,
@@ -56,13 +48,14 @@ class EditBook extends Component<Props, State> {
   render() {
     const { getFieldDecorator } = this.props.form
 
+
     if (this.props.getAuthorsQuery.loading || !this.props.getBookQuery.book) {
       return <div>Loading...</div>
     }
 
+    // Store book object in variable
     const book = this.props.getBookQuery.book;
     const authorIds = book.authors.map(author => author.id)
-    console.log(authorIds)
 
     return (
       <>
@@ -81,6 +74,7 @@ class EditBook extends Component<Props, State> {
             {getFieldDecorator('edition', {
               // antd uses moment objects so it's not possible to set a default value
               // with date-fns
+              // Either replace antd or dane-fns with moment.js
               initialValue: book.edition
             })(
               <DatePicker placeholder="Select edition date" format="YYYY-MM-DD HH:mm:ss" />
@@ -104,6 +98,7 @@ class EditBook extends Component<Props, State> {
 
 const WrappedEditBook = Form.create({ name: 'add_book' })(EditBook);
 
+// Compose all GraphQL queries
 // @ts-ignore
 export default compose(
   graphql(getAuthorsQuery, { name: 'getAuthorsQuery' }),

@@ -26,7 +26,7 @@ class AddBook extends Component<Props, State> {
     author: ''
   }
 
-  handleSubmit = e => {
+  handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     this.props.form.validateFields((err, {title, edition, authors}) => {
       if (!err) {
@@ -51,7 +51,7 @@ class AddBook extends Component<Props, State> {
 
     const { getFieldDecorator } = this.props.form
 
-    console.log(this.props)
+    // Wait for query to load in
     if (this.props.getAuthorsQuery.loading) {
       return <div>Loading...</div>
     }
@@ -83,6 +83,7 @@ class AddBook extends Component<Props, State> {
   }
 }
 
+// antd form higher order function
 const WrappedAddBook = Form.create({ name: 'add_book' })(AddBook);
 
 // @ts-ignore

@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { UserInputWrapper } from './style';
 
+// Lazy loading
 const AddAuthor = lazy(() => import('../AddAuthor'))
 const AddBook = lazy(() => import('../AddBook'))
 

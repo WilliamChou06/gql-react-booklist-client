@@ -4,6 +4,7 @@ import { addAuthorMutation, getAuthorsQuery } from '../../queries';
 import { Form, Input, Button, Typography } from 'antd'
 
 
+// Component interfaces
 interface Props {
   data: any,
   form: any,
@@ -14,7 +15,7 @@ interface Props {
 
 class AddAuthor extends Component<Props> {
 
-  handleSubmit = e => {
+  handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     this.props.form.validateFields((err, { name }) => {
       if (!err) {
@@ -35,7 +36,7 @@ class AddAuthor extends Component<Props> {
   };
 
   render() {
-    
+
     const { getFieldDecorator } = this.props.form
     return (
       <>
