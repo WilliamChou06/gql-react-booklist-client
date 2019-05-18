@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import moment from 'moment';
+import _ from 'lodash';
 import { getBooksQuery } from '../../queries';
 import { StyledBooklist } from './style';
 import { Link } from 'react-router-dom';
@@ -27,6 +28,16 @@ class BookList extends Component<Props> {
       return 0
     }
     return -1
+  }
+
+
+  // Get all table Author tab filters
+  // Ugly implementation
+  getAllAuthorsList = () => {
+    const authorsFilter = [];
+    const books = this.props.data.books;
+    books.forEach(book => book.authors.forEach(author => authorsFilter.push({ text: author.name, value: author.name })));
+    return _.uniqBy(authorsFilter, 'value')
   }
 
   // antd search filter
@@ -62,7 +73,6 @@ class BookList extends Component<Props> {
       <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />
     ),
     onFilter: (value, record) => {
-      console.log(record)
       return record[dataIndex]
         .toString()
         .toLowerCase()
@@ -95,6 +105,9 @@ class BookList extends Component<Props> {
   };
 
   render() {
+    if (this.props.data.loading) {
+      return <div>Loading...</div>
+    }
 
     // Table columns and sorting functions
     const columns = [
@@ -120,15 +133,21 @@ class BookList extends Component<Props> {
         sorter: (a, b) => a.authors.length - b.authors.length,
 
       },
+
+      // Filter only works for individual comparisons for now
       {
         title: 'Authors',
         dataIndex: 'authors',
         key: 'authors',
         render: authors => authors.map(author => author.name).join(', '),
-        sorter: (a, b) => {
-          console.log(a, b)
-          return a.title.localeCompare(b.title)},
-
+        sorter: (a, b) => a.authors[0].name.localeCompare(b.authors[0].name),
+        filters: this.getAllAuthorsList(),
+        onFilter: (value, record) => {
+          console.log(record.authors[0].name)
+          console.log(value)
+          return record.authors.map(author => author.name).join(', ').indexOf(value) === 0
+          // return record.authors[0].name.indexOf(value) === 0;
+        }
       },
       {
         title: 'Actions',
@@ -142,6 +161,7 @@ class BookList extends Component<Props> {
     ]
     return (
       <StyledBooklist>
+        // @ts-ignore 
         <Table dataSource={this.props.data.books} columns={columns} />
       </StyledBooklist>
     );
