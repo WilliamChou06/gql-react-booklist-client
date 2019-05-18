@@ -7,4 +7,4 @@ it('should render UserInput component correctly', () => {
   const wrapper = shallow(<UserInput />);
 
   expect(wrapper).toMatchSnapshot();
-})
+});

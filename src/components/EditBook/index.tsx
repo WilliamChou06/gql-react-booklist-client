@@ -61,38 +61,38 @@ class EditBook extends Component<Props> {
     return (
       <StyledEditBookWrapper>
         <div>
-        <Typography.Title level={2}>Editing: {book.title}</Typography.Title>
-        <Form onSubmit={this.handleSubmit}>
-          <Form.Item>
-            {getFieldDecorator('title', {
-              initialValue: book.title
-            })(
-              <Input placeholder="Book Title" ></Input>
+          <Typography.Title level={2}>Editing: {book.title}</Typography.Title>
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Item>
+              {getFieldDecorator('title', {
+                initialValue: book.title
+              })(
+                <Input placeholder="Book Title" ></Input>
 
-            )}
-          </Form.Item>
-          {console.log(book.authors)}
-          <Form.Item>
-            {getFieldDecorator('edition', {
-              // antd uses moment objects so it's not possible to set a default value
-              // with date-fns
-              // Either replace antd or dane-fns with moment.js
-              initialValue: book.edition
-            })(
-              <DatePicker placeholder="Select edition date" format="YYYY-MM-DD HH:mm:ss" />
+              )}
+            </Form.Item>
+            {console.log(book.authors)}
+            <Form.Item>
+              {getFieldDecorator('edition', {
+                // antd uses moment objects so it's not possible to set a default value
+                // with date-fns
+                // Either replace antd or dane-fns with moment.js
+                initialValue: book.edition
+              })(
+                <DatePicker placeholder="Select edition date" format="YYYY-MM-DD HH:mm:ss" />
 
-            )}
-          </Form.Item>
-          <Form.Item>
-            {getFieldDecorator('authors', {
-              initialValue: authorIds
-            })(<Select mode="multiple" placeholder="Select authors">
-              {this.props.getAuthorsQuery.authors.map((author) => <Select.Option key={author.id} value={author.id}>{author.name}</Select.Option>)}
-            </Select>)}
-          </Form.Item>
-          <StyledButton htmlType="submit" type="primary" ghost>Edit Book!</StyledButton>
-          <StyledButton onClick={this.handleCancel} type="danger" ghost>Cancel</StyledButton>
-        </Form>
+              )}
+            </Form.Item>
+            <Form.Item>
+              {getFieldDecorator('authors', {
+                initialValue: authorIds
+              })(<Select mode="multiple" placeholder="Select authors">
+                {this.props.getAuthorsQuery.authors.map((author) => <Select.Option key={author.id} value={author.id}>{author.name}</Select.Option>)}
+              </Select>)}
+            </Form.Item>
+            <StyledButton htmlType="submit" type="primary" ghost>Edit Book!</StyledButton>
+            <StyledButton onClick={this.handleCancel} type="danger" ghost>Cancel</StyledButton>
+          </Form>
         </div>
       </StyledEditBookWrapper>
     )
