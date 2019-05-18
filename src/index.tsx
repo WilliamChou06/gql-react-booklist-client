@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createGlobalStyle } from 'styled-components';
 import { Route, Switch, BrowserRouter } from 'react-router-dom'
+import { createBrowserHistory } from 'history';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 
@@ -15,10 +16,12 @@ const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql'
 })
 
+const history = createBrowserHistory();
+
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <BrowserRouter>
+    <BrowserRouter history={history}>
       <Switch>
         <Route exact path="/" component={App} />
         <Route path="/edit/:bookId" component={EditBook} />

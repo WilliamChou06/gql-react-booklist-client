@@ -49,6 +49,21 @@ export const addBookMutation = gql`
   }
 `;
 
+
+export const editBookMutation = gql`
+  mutation($id: ID!, $title: String, $authorsId: [ID!], $edition: String) {
+    editBook(id: $id, title: $title, authorsId: $authorsId, edition: $edition) {
+      id
+      title
+      edition
+      authors {
+        id
+        name
+      }
+    }
+  }
+`;
+
 export const addAuthorMutation = gql`
   mutation($name: String!) {
     addAuthor(name: $name) {
@@ -57,3 +72,4 @@ export const addAuthorMutation = gql`
     }
   }
 `;
+

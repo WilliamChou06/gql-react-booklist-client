@@ -1,10 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
-import { getAuthorsQuery, addBookMutation, getBookQuery } from '../../queries';
-import { Form, Input, Button, DatePicker, Select, Typography } from 'antd'
-
-
-
+import { getAuthorsQuery, addBookMutation, getBookQuery, editBookMutation, getBooksQuery } from '../../queries';
+import { Form, Input, Button, DatePicker, Select, Typography } from 'antd';
 
 interface Props {
   data: any;
@@ -13,6 +10,8 @@ interface Props {
   addBookMutation: any;
   match: any;
   getBookQuery: any;
+  editBookMutation: any;
+  history: any
 }
 
 interface State {
@@ -28,25 +27,33 @@ class EditBook extends Component<Props, State> {
     author: ''
   }
 
+  handleCancel = e => {
+    e.preventDefault();
+    this.props.history.push('/');
+  }
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, { title, edition, authors }) => {
       if (!err) {
         console.log('Received values of form: ');
-        this.props.addBookMutation({
+        this.props.editBookMutation({
           variables: {
+            id: this.props.match.params.bookId,
             title,
             edition,
             authorsId: authors
-          }
+          },
+          refetchQueries: [{
+            query: getBooksQuery
+          }]
         });
+        this.props.history.push('/');
       }
     });
   };
 
   render() {
-
-
     const { getFieldDecorator } = this.props.form
 
     if (this.props.getAuthorsQuery.loading || !this.props.getBookQuery.book) {
@@ -59,17 +66,23 @@ class EditBook extends Component<Props, State> {
 
     return (
       <>
-        <Typography.Title level={2}>Edit {console.log(this.props.getAuthorsQuery)}</Typography.Title>
+        <Typography.Title level={2}>Editing: {book.title}</Typography.Title>
         <Form onSubmit={this.handleSubmit}>
           <Form.Item>
-            {getFieldDecorator('title')(
-              <Input placeholder="Book Title" value={book.title}></Input>
+            {getFieldDecorator('title', {
+              initialValue: book.title
+            })(
+              <Input placeholder="Book Title" ></Input>
 
             )}
           </Form.Item>
           {console.log(book.authors)}
           <Form.Item>
-            {getFieldDecorator('edition')(
+            {getFieldDecorator('edition', {
+              // antd uses moment objects so it's not possible to set a default value
+              // with date-fns
+              initialValue: book.edition
+            })(
               <DatePicker placeholder="Select edition date" format="YYYY-MM-DD HH:mm:ss" />
 
             )}
@@ -81,7 +94,8 @@ class EditBook extends Component<Props, State> {
               {this.props.getAuthorsQuery.authors.map((author) => <Select.Option key={author.id} value={author.id}>{author.name}</Select.Option>)}
             </Select>)}
           </Form.Item>
-          <Button htmlType="submit" type="primary" ghost>Add Book!</Button>
+          <Button htmlType="submit" type="primary" ghost>Edit Book!</Button>
+          <Button onClick={this.handleCancel} type="danger" ghost>Cancel</Button>
         </Form>
       </>
     )
@@ -94,6 +108,7 @@ const WrappedEditBook = Form.create({ name: 'add_book' })(EditBook);
 export default compose(
   graphql(getAuthorsQuery, { name: 'getAuthorsQuery' }),
   graphql(addBookMutation, { name: 'addBookMutation' }),
+  graphql(editBookMutation, { name: 'editBookMutation' }),
   graphql(getBookQuery, {
     name: 'getBookQuery',
     options: (props: Props) => {
