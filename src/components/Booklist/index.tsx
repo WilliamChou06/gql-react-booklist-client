@@ -124,10 +124,10 @@ class BookList extends Component<Props> {
         title: 'Authors',
         dataIndex: 'authors',
         key: 'authors',
-        render: authors => {
-          console.log(authors)
-          return authors.map(author => author.name).join(', ')},
-        sorter: (a, b) => a.authors.length - b.authors.length,
+        render: authors => authors.map(author => author.name).join(', '),
+        sorter: (a, b) => {
+          console.log(a, b)
+          return a.title.localeCompare(b.title)},
 
       },
       {
