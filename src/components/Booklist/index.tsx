@@ -15,7 +15,8 @@ interface Props {
 
 class BookList extends Component<Props> {
   state = {
-    searchText: ''
+    searchText: '',
+    authorsTabFilter: ''
   }
 
   // Edition sorting method
@@ -84,14 +85,14 @@ class BookList extends Component<Props> {
         setTimeout(() => this.searchInput.select());
       }
     },
-    // render: text => (
-    //   <Highlighter
-    //     highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-    //     searchWords={[this.state.searchText]}
-    //     autoEscape
-    //     textToHighlight={text.toString()}
-    //   />
-    // ),
+    render: text => (
+      <Highlighter
+        highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+        searchWords={[this.state.searchText]}
+        autoEscape
+        textToHighlight={text.toString()}
+      />
+    ),
   });
 
   handleSearch = (selectedKeys, confirm) => {
@@ -133,8 +134,6 @@ class BookList extends Component<Props> {
         sorter: (a, b) => a.authors.length - b.authors.length,
 
       },
-
-      // Filter only works for individual comparisons for now
       {
         title: 'Authors',
         dataIndex: 'authors',
@@ -142,12 +141,7 @@ class BookList extends Component<Props> {
         render: authors => authors.map(author => author.name).join(', '),
         sorter: (a, b) => a.authors[0].name.localeCompare(b.authors[0].name),
         filters: this.getAllAuthorsList(),
-        onFilter: (value, record) => {
-          console.log(record.authors[0].name)
-          console.log(value)
-          return record.authors.map(author => author.name).join(', ').indexOf(value) === 0
-          // return record.authors[0].name.indexOf(value) === 0;
-        }
+        onFilter: (value, record) => record.authors.map(author => author.name).join(', ').indexOf(value) >= 0
       },
       {
         title: 'Actions',
