@@ -74,7 +74,7 @@ class AddBook extends Component<Props, State> {
             {this.props.getAuthorsQuery.authors.map((author) => <Select.Option key={author.id} value={author.id}>{author.name}</Select.Option>)}
           </Select>)}
         </Form.Item>
-        <Button htmlType="submit" type="primary" ghost>Add Book!</Button>
+        <Button htmlType="submit" type="primary" ghost>Add Book</Button>
       </Form>
       </>
     )

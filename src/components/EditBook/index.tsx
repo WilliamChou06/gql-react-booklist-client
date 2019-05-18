@@ -90,7 +90,7 @@ class EditBook extends Component<Props> {
                 {this.props.getAuthorsQuery.authors.map((author) => <Select.Option key={author.id} value={author.id}>{author.name}</Select.Option>)}
               </Select>)}
             </Form.Item>
-            <StyledButton htmlType="submit" type="primary" ghost>Edit Book!</StyledButton>
+            <StyledButton htmlType="submit" type="primary" ghost>Edit Book</StyledButton>
             <StyledButton onClick={this.handleCancel} type="danger" ghost>Cancel</StyledButton>
           </Form>
         </div>

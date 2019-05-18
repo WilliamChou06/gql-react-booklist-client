@@ -47,7 +47,7 @@ class AddAuthor extends Component<Props> {
             <Input placeholder="Add Author"></Input>
           )}
         </Form.Item>
-        <Button htmlType="submit" type="primary" ghost>Add an Author!</Button>
+        <Button htmlType="submit" type="primary" ghost>Add Author</Button>
       </Form>
       </>
     )
