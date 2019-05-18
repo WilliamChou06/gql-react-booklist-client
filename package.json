@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "gql-react-booklist-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -27,6 +27,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "author": "William Chou",
+  "license": "ISC",
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -41,5 +43,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.13.0"
   }
 }

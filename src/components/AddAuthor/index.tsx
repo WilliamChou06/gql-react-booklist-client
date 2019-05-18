@@ -8,17 +8,11 @@ interface Props {
   data: any,
   form: any,
   getAuthorsQuery: any,
-  addBookMutation: any,
-  mutate: any
+  mutate(args): any
 }
 
-interface State {
-  title: string,
-  edition: string,
-  author: string
-}
 
-class AddAuthor extends Component<Props, State> {
+class AddAuthor extends Component<Props> {
 
   handleSubmit = e => {
     e.preventDefault();
@@ -41,10 +35,8 @@ class AddAuthor extends Component<Props, State> {
   };
 
   render() {
-
+    
     const { getFieldDecorator } = this.props.form
-
-    console.log(this.props)
     return (
       <>
         <Typography.Title level={2}>Add an author!</Typography.Title>
