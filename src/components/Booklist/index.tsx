@@ -161,7 +161,6 @@ class BookList extends Component<Props> {
     ]
     return (
       <StyledBooklist>
-        // @ts-ignore 
         <Table dataSource={this.props.data.books} columns={columns} />
       </StyledBooklist>
     );
