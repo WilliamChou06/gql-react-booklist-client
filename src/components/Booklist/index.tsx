@@ -118,6 +118,7 @@ class BookList extends Component<Props> {
         title: 'Title',
         dataIndex: 'title',
         key: 'title',
+        width: 300,
         sorter: (a, b) => a.title.localeCompare(b.title),
         ...this.getColumnSearchProps('title')
       },
@@ -125,14 +126,16 @@ class BookList extends Component<Props> {
         title: 'Edition',
         dataIndex: 'edition',
         key: 'edition',
+        width: 100,
         render: date => date && moment(date).format('DD/MM/YYYY'),
         sorter: this.sortEditions
       },
       {
-        title: '#Authors',
+        title: <div style={{ display: 'flex', alignItems: 'center', width: '100%', height: '100%' }}><p style={{ marginBottom: 0 }}>#<Icon type="user" /></p></div>,
         dataIndex: 'authors',
         key: '#authors',
-        render: authors => authors.length,
+        width: 60,
+        render: authors => <div style={{ width: '100%', textAlign: 'center' }} >{authors.length}</div>,
         sorter: (a, b) => a.authors.length - b.authors.length,
 
       },
@@ -157,7 +160,7 @@ class BookList extends Component<Props> {
     ]
     return (
       <StyledBooklist>
-        <Table dataSource={this.props.data.books} columns={columns} />
+        <Table dataSource={this.props.data.books} columns={columns} size="middle" />
       </StyledBooklist>
     );
   }
