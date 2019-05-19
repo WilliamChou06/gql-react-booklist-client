@@ -4,7 +4,9 @@ import moment from 'moment';
 import _ from 'lodash';
 import { getBooksQuery } from '../../queries';
 import { StyledBooklist } from './style';
+import Spinner from '../Spinner';
 import { Link } from 'react-router-dom';
+
 
 import { Table, Input, Icon, Button } from 'antd';
 import Highlighter from 'react-highlight-words';
@@ -107,7 +109,7 @@ class BookList extends Component<Props> {
 
   render() {
     if (this.props.data.loading) {
-      return <div>Loading...</div>
+      return <Spinner />
     }
 
     // Table columns and sorting functions
