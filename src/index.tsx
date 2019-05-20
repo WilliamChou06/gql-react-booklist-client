@@ -15,7 +15,7 @@ const EditBook = lazy(() => import('./components/EditBook'));
 const App = lazy(() => import('./components/App'));
 
 const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphql'
+  uri: '/graphql'
 })
 
 const history = createBrowserHistory();
