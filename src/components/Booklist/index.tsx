@@ -3,7 +3,7 @@ import { graphql } from 'react-apollo';
 import moment from 'moment';
 import _ from 'lodash';
 import { getBooksQuery } from '../../queries';
-import { StyledBooklist } from './style';
+import { StyledBooklistContainer } from './style';
 import Spinner from '../Spinner';
 import { Link } from 'react-router-dom';
 
@@ -159,9 +159,9 @@ class BookList extends Component<Props> {
       }
     ]
     return (
-      <StyledBooklist>
+      <StyledBooklistContainer>
         <Table dataSource={this.props.data.books} columns={columns} size="middle" />
-      </StyledBooklist>
+      </StyledBooklistContainer>
     );
   }
 };

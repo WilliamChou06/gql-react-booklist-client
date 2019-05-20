@@ -14,8 +14,7 @@ const UserInput = () => {
       <Suspense fallback={<Spinner />}>
         <AddAuthor />
       </Suspense>
-      <br></br>
-      <hr></hr>
+      
       <Suspense fallback={<Spinner />}>
         <AddBook />
       </Suspense>

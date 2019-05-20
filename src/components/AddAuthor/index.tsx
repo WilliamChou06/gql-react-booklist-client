@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { graphql } from 'react-apollo';
 import { addAuthorMutation, getAuthorsQuery } from '../../queries';
 import { Form, Input, Button, Typography } from 'antd'
+import { StyledAddAuthorContainer } from './style';
 
 
 // Component interfaces
@@ -39,17 +40,17 @@ class AddAuthor extends Component<Props> {
 
     const { getFieldDecorator } = this.props.form
     return (
-      <>
-        <Typography.Title level={2}>Add an author!</Typography.Title>
+      <StyledAddAuthorContainer>
+        <Typography.Title level={2}>Author</Typography.Title>
         <Form onSubmit={this.handleSubmit}>
-        <Form.Item>
-          {getFieldDecorator('name')(
-            <Input placeholder="Add Author"></Input>
-          )}
-        </Form.Item>
-        <Button htmlType="submit" type="primary" ghost>Add Author</Button>
-      </Form>
-      </>
+          <Form.Item>
+            {getFieldDecorator('name')(
+              <Input placeholder="Add Author"></Input>
+            )}
+          </Form.Item>
+          <Button htmlType="submit" type="primary" ghost>Add Author</Button>
+        </Form>
+      </StyledAddAuthorContainer>
     )
   }
 }

@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo';
 import { getAuthorsQuery, addBookMutation, getBooksQuery } from '../../queries';
 import { Form, Input, Button, DatePicker, Select, Typography } from 'antd'
+import Spinner from '../Spinner';
+import {StyledAddBookContainer} from './style'
 
 interface Props {
   data: any,
@@ -50,12 +52,12 @@ class AddBook extends Component<Props, State> {
 
     // Wait for query to load in
     if (this.props.getAuthorsQuery.loading) {
-      return <div>Loading...</div>
+      return <Spinner />
     }
 
     return (
-      <>
-        <Typography.Title level={2}>Add a Book!</Typography.Title>
+      <StyledAddBookContainer>
+        <Typography.Title level={2}>Book</Typography.Title>
         <p>All fields are required! *</p>
         <Form onSubmit={this.handleSubmit}>
         <Form.Item>
@@ -76,7 +78,7 @@ class AddBook extends Component<Props, State> {
         </Form.Item>
         <Button htmlType="submit" type="primary" ghost>Add Book</Button>
       </Form>
-      </>
+      </StyledAddBookContainer>
     )
   }
 }
