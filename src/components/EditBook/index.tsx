@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 import { getAuthorsQuery, addBookMutation, getBookQuery, editBookMutation, getBooksQuery } from '../../queries';
 import { Form, Input, DatePicker, Select, Typography } from 'antd';
-import { StyledButton, StyledEditBookWrapper } from './style';
+import { StyledButton, StyledEditBookWrapper, StyledSpinnerWrapper } from './style';
+import Spinner from '../Spinner';
 import moment from 'moment';
 
 interface Props {
@@ -20,7 +21,7 @@ interface Props {
 class EditBook extends Component<Props> {
 
   // Push to root directory if cancel btn clicked
-  handleCancel = (e: React.FormEvent<HTMLButtonElement>)=> {
+  handleCancel = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     this.props.history.push('/');
   }
@@ -40,7 +41,7 @@ class EditBook extends Component<Props> {
           },
           refetchQueries: [{
             query: getBooksQuery
-          }, ]
+          },]
         });
         this.props.history.push('/');
       }
@@ -52,7 +53,7 @@ class EditBook extends Component<Props> {
     const { getFieldDecorator } = this.props.form
 
     if (this.props.getAuthorsQuery.loading || !this.props.getBookQuery.book) {
-      return <div>Loading...</div>
+      return <StyledSpinnerWrapper><Spinner /></StyledSpinnerWrapper>;
     }
 
     // Store book object in variable
